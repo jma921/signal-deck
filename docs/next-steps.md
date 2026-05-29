@@ -10,6 +10,10 @@ Done: add minimal manual Service Position controls by clicking Service Items in 
 
 ## Then
 
+Done: add a local SQLite runtime foundation with startup migrations, typed core integration settings, plaintext scoped secrets, and local-only settings/secrets API routes.
+
+## Then Next
+
 Add a PCO Services provider for the planned Service Order while keeping SignalDeck-owned Service Position local to the app.
 
 Assume one operator station for the first live version. Do not add auth, persistence, or realtime multi-client synchronization until the one-station workflow is useful.

@@ -23,6 +23,8 @@ bun start
 - `src/App.tsx` renders the dashboard from the production provider snapshot.
 - `src/data.ts` contains seeded service, slide, connection, chat, and stream health data.
 - `src/production/` contains the production snapshot contract and simulation provider.
+- `src/runtime/` contains local SQLite settings/secrets persistence and startup migrations.
+- `src/server/` contains server-side request guards such as local-only route enforcement.
 - `src/components/` contains presentational panels for the dashboard.
 - `src/index.css` owns the visual system and responsive layout.
 
@@ -43,5 +45,7 @@ bun start
 - Simulation and live integrations should feed the same app-state provider contract.
 - The first live version assumes one operator station, not synchronized multi-client control.
 - PCO Services credentials stay server-side; browser code should call SignalDeck endpoints, not PCO directly.
+- Runtime settings and plaintext initial secrets are stored in the local SQLite database under the OS app-data directory.
+- Settings and secrets API routes are server-enforced local-only routes.
 
 See `docs/next-steps.md` for the current implementation path.

@@ -12,6 +12,8 @@ Done: add minimal manual Service Position controls by clicking Service Items in 
 
 Done: add a local SQLite runtime foundation with startup migrations, typed core integration settings, plaintext scoped secrets, and local-only settings/secrets API routes.
 
+Done: add a server-side OBS integration manager with persistent connection lifecycle, sanitized status, test, and reconnect routes. OBS status is not wired into the dashboard yet.
+
 ## Then Next
 
 Add a PCO Services provider for the planned Service Order while keeping SignalDeck-owned Service Position local to the app.

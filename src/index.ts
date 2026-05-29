@@ -1,5 +1,6 @@
 import { serve } from "bun";
 import index from "./index.html";
+import { IntegrationManager } from "./integrations/integrationManager";
 import { openRuntimeDatabase } from "./runtime/database";
 import { SettingsRepository, type RuntimeSettingsPatch } from "./runtime/settingsRepository";
 import { isIntegrationKey } from "./runtime/settings";
@@ -8,6 +9,8 @@ import { isLoopbackRequest, localOnlyResponse } from "./server/localOnly";
 const db = openRuntimeDatabase();
 const settingsRepository = new SettingsRepository(db);
 const runtimeSettings = settingsRepository.getRuntimeSettings();
+const integrationManager = new IntegrationManager(settingsRepository);
+integrationManager.start();
 
 function requestIp(req: Request): string | null {
   try {
@@ -63,7 +66,9 @@ const server = serve({
         const body = await readJson<RuntimeSettingsPatch>(req);
         if (!body) return Response.json({ error: "Invalid JSON body." }, { status: 400 });
 
-        return Response.json(settingsRepository.updateRuntimeSettings(body));
+        const settings = settingsRepository.updateRuntimeSettings(body);
+        void integrationManager.refresh();
+        return Response.json(settings);
       },
     },
 
@@ -87,7 +92,32 @@ const server = serve({
           }
         }
 
+        void integrationManager.refresh();
         return Response.json(settingsRepository.getRuntimeSettings());
+      },
+    },
+
+    "/api/integrations/status": {
+      async GET(req) {
+        const blocked = requireLocal(req);
+        if (blocked) return blocked;
+        return Response.json({ integrations: integrationManager.getStatuses() });
+      },
+    },
+
+    "/api/integrations/obs/test": {
+      async POST(req) {
+        const blocked = requireLocal(req);
+        if (blocked) return blocked;
+        return Response.json(await integrationManager.testObs());
+      },
+    },
+
+    "/api/integrations/obs/reconnect": {
+      async POST(req) {
+        const blocked = requireLocal(req);
+        if (blocked) return blocked;
+        return Response.json(await integrationManager.reconnectObs());
       },
     },
 

@@ -18,11 +18,12 @@ bun start
 
 ## Current Shape
 
-- `src/index.ts` serves the app with `Bun.serve()` and still includes template `/api/hello` routes.
+- `src/index.ts` serves the app with `Bun.serve()` and exposes local API routes.
 - `src/frontend.tsx` mounts the React app from `src/index.html`.
 - `src/App.tsx` renders the dashboard from the production provider snapshot.
 - `src/data.ts` contains seeded service, slide, connection, chat, and stream health data.
 - `src/production/` contains the production snapshot contract and simulation provider.
+- `src/integrations/` contains server-owned integration managers and sanitized integration status.
 - `src/runtime/` contains local SQLite settings/secrets persistence and startup migrations.
 - `src/server/` contains server-side request guards such as local-only route enforcement.
 - `src/components/` contains presentational panels for the dashboard.
@@ -47,5 +48,6 @@ bun start
 - PCO Services credentials stay server-side; browser code should call SignalDeck endpoints, not PCO directly.
 - Runtime settings and plaintext initial secrets are stored in the local SQLite database under the OS app-data directory.
 - Settings and secrets API routes are server-enforced local-only routes.
+- OBS runs through a server-side integration manager using OBS WebSocket. Its status API is sanitized and localhost-only until LAN mode exists.
 
 See `docs/next-steps.md` for the current implementation path.

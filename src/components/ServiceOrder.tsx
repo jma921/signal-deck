@@ -1,16 +1,35 @@
 import { HdCount, Panel } from "./atoms";
-import type { ServiceItem } from "../data";
 
-function ServiceRow({ item, n, accent }: { item: ServiceItem; n: number; accent: string }) {
+export interface ServiceOrderRow {
+  id: string;
+  icon: string;
+  name: string;
+  dur: string;
+  status: "done" | "active" | "next" | "upcoming";
+}
+
+function ServiceRow({ item, n, accent, onSelect }: { item: ServiceOrderRow; n: number; accent: string; onSelect?: (id: string) => void }) {
   const cls =
     item.status === "done" ? "sd-svc-done" :
     item.status === "active" ? "sd-svc-active" :
     item.status === "next" ? "sd-svc-next" : "sd-svc-up";
 
+  const select = () => onSelect?.(item.id);
+
   return (
     <div
+      role={onSelect ? "button" : undefined}
+      tabIndex={onSelect ? 0 : undefined}
       className={"sd-svc-row " + cls}
       style={item.status === "active" ? { "--accent": accent } as React.CSSProperties : undefined}
+      onClick={select}
+      onKeyDown={(event) => {
+        if (!onSelect) return;
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          select();
+        }
+      }}
     >
       <span className="sd-svc-n">{String(n).padStart(2, "0")}</span>
       <span className="sd-svc-icon">{item.icon}</span>
@@ -22,7 +41,7 @@ function ServiceRow({ item, n, accent }: { item: ServiceItem; n: number; accent:
   );
 }
 
-export function ServiceOrder({ items, accent }: { items: ServiceItem[]; accent: string }) {
+export function ServiceOrder({ items, accent, onSelectItem }: { items: ServiceOrderRow[]; accent: string; onSelectItem?: (id: string) => void }) {
   const done = items.filter((i) => i.status === "done").length;
   return (
     <Panel
@@ -36,7 +55,7 @@ export function ServiceOrder({ items, accent }: { items: ServiceItem[]; accent: 
       bodyClass="sd-svc-body"
     >
       {items.map((it, i) => (
-        <ServiceRow key={i} item={it} n={i + 1} accent={accent} />
+        <ServiceRow key={it.id} item={it} n={i + 1} accent={accent} onSelect={onSelectItem} />
       ))}
     </Panel>
   );

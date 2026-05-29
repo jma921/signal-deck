@@ -20,7 +20,9 @@ export function fmtUptime(sec: number) {
 }
 
 export function fmtCountdown(sec: number) {
-  const m = Math.floor(sec / 60);
-  const s = Math.floor(sec % 60);
-  return `${m}:${String(s).padStart(2, "0")}`;
+  const sign = sec < 0 ? "-" : "";
+  const abs = Math.abs(sec);
+  const m = Math.floor(abs / 60);
+  const s = Math.floor(abs % 60);
+  return `${sign}${m}:${String(s).padStart(2, "0")}`;
 }

@@ -1,8 +1,10 @@
 import React from "react";
 import { HdCount } from "./atoms";
-import type { ServiceItem } from "../data";
 
-interface PlaylistItem extends ServiceItem {
+interface PlaylistItem {
+  id: string;
+  icon: string;
+  name: string;
   slides: number;
 }
 
@@ -32,7 +34,7 @@ export function PlaylistStrip({
             i < activeIdx ? "sd-card-done" :
             i === activeIdx ? "sd-card-active" : "sd-card-up";
           return (
-            <React.Fragment key={i}>
+            <React.Fragment key={it.id}>
               {i > 0 && (
                 <span
                   className={"sd-strip-link" + (i <= activeIdx ? " sd-strip-link-done" : "")}

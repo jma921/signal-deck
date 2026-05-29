@@ -6,11 +6,12 @@ export function PcoTimer({
   nextName,
   accent,
 }: {
-  seconds: number;
+  seconds: number | null;
   nextName: string;
   accent: string;
 }) {
-  const urgent = seconds <= 60;
+  const urgent = seconds != null && seconds <= 60;
+  const overtime = seconds != null && seconds < 0;
   const color = urgent ? "#ff5c5c" : "#f0b429";
   return (
     <Panel
@@ -24,9 +25,9 @@ export function PcoTimer({
       bodyClass="sd-timer-body"
     >
       <div className="sd-timer-num" style={{ color }}>
-        {fmtCountdown(seconds)}
+        {seconds == null ? "--:--" : fmtCountdown(seconds)}
       </div>
-      <div className="sd-timer-sub">time left on current item</div>
+      <div className="sd-timer-sub">{overtime ? "overtime on current item" : "time left on current item"}</div>
       <div className="sd-timer-next">
         <span className="sd-timer-arrow" style={{ color: accent }}>
           →

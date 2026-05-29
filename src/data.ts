@@ -10,10 +10,12 @@ export interface Song {
 }
 
 export interface ServiceItem {
+  id: string;
   type: string;
   icon: string;
   name: string;
   dur: string;
+  durationSeconds: number | null;
   status: "done" | "active" | "next" | "upcoming";
 }
 
@@ -55,16 +57,16 @@ export const SONG: Song = {
 };
 
 export const SERVICE: ServiceItem[] = [
-  { type: "media",     icon: "▶",  name: "Walk-in Loop",                     dur: "10:00", status: "done" },
-  { type: "song",      icon: "🎵", name: "Welcome — Morning Light",          dur: "4:30",  status: "done" },
-  { type: "prayer",    icon: "🙏", name: "Opening Prayer",                   dur: "2:00",  status: "done" },
-  { type: "song",      icon: "🎵", name: "Mercy Like A River",               dur: "5:15",  status: "active" },
-  { type: "song",      icon: "🎵", name: "Great Is The Lord",                dur: "4:45",  status: "next" },
-  { type: "scripture", icon: "📖", name: "Scripture — Ephesians 4",          dur: "3:00",  status: "upcoming" },
-  { type: "sermon",    icon: "🎤", name: "Sermon — Each Part Does Its Work", dur: "32:00", status: "upcoming" },
-  { type: "song",      icon: "🎵", name: "Response — All My Days",           dur: "5:00",  status: "upcoming" },
-  { type: "prayer",    icon: "🙏", name: "Benediction",                      dur: "1:30",  status: "upcoming" },
-  { type: "media",     icon: "▶",  name: "Announcements Loop",               dur: "6:00",  status: "upcoming" },
+  { id: "sim-walk-in-loop",      type: "media",     icon: "▶",  name: "Walk-in Loop",                     dur: "10:00", durationSeconds: 600,  status: "done" },
+  { id: "sim-welcome-song",      type: "song",      icon: "🎵", name: "Welcome — Morning Light",          dur: "4:30",  durationSeconds: 270,  status: "done" },
+  { id: "sim-opening-prayer",    type: "prayer",    icon: "🙏", name: "Opening Prayer",                   dur: "2:00",  durationSeconds: 120,  status: "done" },
+  { id: "sim-mercy-like-river",  type: "song",      icon: "🎵", name: "Mercy Like A River",               dur: "5:15",  durationSeconds: 315,  status: "active" },
+  { id: "sim-great-is-lord",     type: "song",      icon: "🎵", name: "Great Is The Lord",                dur: "4:45",  durationSeconds: 285,  status: "next" },
+  { id: "sim-ephesians-4",       type: "scripture", icon: "📖", name: "Scripture — Ephesians 4",          dur: "3:00",  durationSeconds: 180,  status: "upcoming" },
+  { id: "sim-sermon-each-part",  type: "sermon",    icon: "🎤", name: "Sermon — Each Part Does Its Work", dur: "32:00", durationSeconds: 1920, status: "upcoming" },
+  { id: "sim-response-song",     type: "song",      icon: "🎵", name: "Response — All My Days",           dur: "5:00",  durationSeconds: 300,  status: "upcoming" },
+  { id: "sim-benediction",       type: "prayer",    icon: "🙏", name: "Benediction",                      dur: "1:30",  durationSeconds: 90,   status: "upcoming" },
+  { id: "sim-announcements-loop", type: "media",     icon: "▶",  name: "Announcements Loop",               dur: "6:00",  durationSeconds: 360,  status: "upcoming" },
 ];
 
 export const CONNECTIONS: ConnectionRow[] = [

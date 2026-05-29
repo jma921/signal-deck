@@ -1,14 +1,14 @@
 import { useEffect, useRef } from "react";
 import { Dot, Panel } from "./atoms";
-import type { ChatMsg } from "../data";
+import type { ChatMessage as ProductionChatMessage } from "../production/types";
 
 const PLAT: Record<string, { label: string; bg: string }> = {
   YT: { label: "YT", bg: "#ff3d3d" },
   FB: { label: "FB", bg: "#2d7ff0" },
 };
 
-function ChatMessage({ m }: { m: ChatMsg }) {
-  const p = PLAT[m.plat]!;
+function ChatMessage({ m }: { m: ProductionChatMessage }) {
+  const p = PLAT[m.platform]!;
   return (
     <div className="sd-chat-msg">
       <span className="sd-chat-badge" style={{ background: p.bg }}>
@@ -36,7 +36,7 @@ export function ChatPanel({
   onToggle,
   accent,
 }: {
-  messages: ChatMsg[];
+  messages: ProductionChatMessage[];
   collapsed: boolean;
   onToggle: () => void;
   accent: string;
@@ -63,8 +63,8 @@ export function ChatPanel({
       {!collapsed && (
         <>
           <div className="sd-chat-feed" ref={scrollRef}>
-            {messages.map((m, i) => (
-              <ChatMessage key={i} m={m} />
+            {messages.map((m) => (
+              <ChatMessage key={m.id} m={m} />
             ))}
           </div>
           <div className="sd-chat-compose">

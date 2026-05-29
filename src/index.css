@@ -221,6 +221,9 @@ input{font-family:inherit;}
   display:flex;align-items:center;gap:10px;padding:9px 9px;border-radius:5px;
   border-left:2px solid transparent;
 }
+.sd-svc-row[role="button"]{cursor:pointer;}
+.sd-svc-row[role="button"]:hover{background:rgba(255,255,255,0.035);}
+.sd-svc-row[role="button"]:focus-visible{outline:1px solid var(--accent);outline-offset:-1px;}
 .sd-svc-n{font-family:var(--mono);font-size:10px;color:var(--txt-faint);width:18px;flex:0 0 auto;font-variant-numeric:tabular-nums;}
 .sd-svc-icon{font-size:13px;flex:0 0 auto;width:18px;text-align:center;}
 .sd-svc-name{flex:1 1 auto;font-size:13px;font-weight:500;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-0.01em;}

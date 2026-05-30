@@ -18,11 +18,12 @@ function repository() {
         extra: {
           serviceTypeId: "service-type-1",
           planId: "plan-1",
+          clientId: "pco-client-id",
         },
       },
     },
   });
-  settingsRepository.getSecretStore().setSecret("pco", "token", "pco-token");
+  settingsRepository.getSecretStore().setSecret("pco", "secret", "pco-secret");
   return settingsRepository;
 }
 
@@ -36,7 +37,7 @@ test("PCO manager keeps the last successful Service Order in memory and marks it
 
   globalThis.fetch = async (input, init) => {
     expect(String(input)).toContain("/services/v2/service_types/service-type-1/plans/plan-1/items");
-    expect((init?.headers as Record<string, string>).Authorization).toBe("Bearer pco-token");
+    expect((init?.headers as Record<string, string>).Authorization).toBe(`Basic ${btoa("pco-client-id:pco-secret")}`);
     return Response.json({
       data: [
         {
@@ -63,15 +64,15 @@ test("PCO manager keeps the last successful Service Order in memory and marks it
   expect(manager.getServiceOrder()?.stale).toBe(true);
 });
 
-test("PCO manager requires a personal token", async () => {
+test("PCO manager requires a client ID and secret", async () => {
   const settingsRepository = repository();
-  settingsRepository.getSecretStore().clearSecret("pco", "token");
-  settingsRepository.getSecretStore().setSecret("pco", "appId", "ignored-app-id");
-  settingsRepository.getSecretStore().setSecret("pco", "secret", "ignored-secret");
+  settingsRepository.getSecretStore().clearSecret("pco", "secret");
+  settingsRepository.getSecretStore().setSecret("pco", "token", "ignored-token");
   const manager = new PcoManager(settingsRepository, () => {});
 
   await manager.refresh();
 
   expect(manager.getStatus().state).toBe("missing-config");
-  expect(manager.getStatus().message).toContain("token");
+  expect(manager.getStatus().message).toContain("client ID");
+  expect(manager.getStatus().message).toContain("secret");
 });

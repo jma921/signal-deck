@@ -34,7 +34,8 @@ function requiredFields(settings: RuntimeSettings, integrationKey: IntegrationKe
   } else if (integrationKey === "pco") {
     addMissing(missing, hasString(integration.extra.serviceTypeId), "PCO_SERVICE_TYPE_ID");
     addMissing(missing, hasString(integration.extra.planId), "PCO_PLAN_ID");
-    addMissing(missing, hasSecret(settings, "pco", "token"), "PCO_TOKEN");
+    addMissing(missing, hasString(integration.extra.clientId), "PCO_CLIENT_ID");
+    addMissing(missing, hasSecret(settings, "pco", "secret"), "PCO_SECRET");
   }
 
   return missing;

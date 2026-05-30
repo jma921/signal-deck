@@ -6,11 +6,13 @@ export function Header({
   viewers,
   resolution,
   live,
+  onSettings,
 }: {
   now: Date;
   viewers: number;
   resolution: string;
   live: boolean;
+  onSettings: () => void;
 }) {
   return (
     <header className="sd-header">
@@ -44,6 +46,7 @@ export function Header({
           {live ? "LIVE" : "OFFLINE"}
         </span>
         <span className="sd-clock">{fmtClock(now)}</span>
+        <button className="sd-header-btn" type="button" onClick={onSettings}>Settings</button>
       </div>
     </header>
   );

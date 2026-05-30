@@ -22,17 +22,40 @@ test("env bootstrap imports first-run defaults without exposing secret values", 
     PCO_ENABLED: "true",
     PCO_SERVICE_TYPE_ID: "123",
     PCO_PLAN_ID: "456",
-    PCO_TOKEN: "secret-token",
+    PCO_CLIENT_ID: "client-id",
+    PCO_SECRET: "secret-token",
   });
 
   expect(settings.integrations.obs.enabled).toBe(true);
   expect(settings.integrations.obs.host).toBe("10.0.0.12");
   expect(settings.integrations.pco.extra.serviceTypeId).toBe("123");
-  expect(settings.secretPresence.pco.token).toBe(true);
+  expect(settings.integrations.pco.extra.clientId).toBe("client-id");
+  expect(settings.secretPresence.pco.secret).toBe(true);
 
   const config = getSanitizedConfigStatus(settings);
   expect(JSON.stringify(config)).not.toContain("secret-token");
   expect(config.pco.configured).toBe(true);
+});
+
+test("sanitized config requires PCO client ID and secret", () => {
+  const settingsRepository = repository();
+  settingsRepository.updateRuntimeSettings({
+    integrations: {
+      pco: {
+        enabled: true,
+        extra: {
+          serviceTypeId: "123",
+          planId: "456",
+        },
+      },
+    },
+  });
+
+  const config = getSanitizedConfigStatus(settingsRepository.getRuntimeSettings());
+
+  expect(config.pco.configured).toBe(false);
+  expect(config.pco.hasRequiredSecrets).toBe(false);
+  expect(config.pco.missing).toEqual(["PCO_CLIENT_ID", "PCO_SECRET"]);
 });
 
 test("env bootstrap does not overwrite operator-edited runtime settings or existing secrets", () => {

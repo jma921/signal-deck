@@ -81,8 +81,10 @@ export class PcoManager {
 
     const serviceTypeId = asString(settings.extra.serviceTypeId);
     const planId = asString(settings.extra.planId);
-    if (!serviceTypeId || !planId || !this.hasToken()) {
-      this.currentStatus = integrationStatus("pco", "missing-config", true, "PCO Services token, service type, and plan are required.");
+    const clientId = asString(settings.extra.clientId);
+    const secret = this.getSecret();
+    if (!serviceTypeId || !planId || !clientId || !secret) {
+      this.currentStatus = integrationStatus("pco", "missing-config", true, "PCO Services client ID, secret, service type, and plan are required.");
       this.markStale();
       this.emit();
       this.scheduleRefresh(settings);
@@ -93,7 +95,7 @@ export class PcoManager {
     this.emit();
 
     try {
-      const items = await this.fetchItems(settings, serviceTypeId, planId);
+      const items = await this.fetchItems(settings, serviceTypeId, planId, clientId, secret);
       this.currentServiceOrder = {
         source: "pco",
         items,
@@ -111,14 +113,14 @@ export class PcoManager {
     return this.currentStatus;
   }
 
-  private async fetchItems(settings: IntegrationSettings, serviceTypeId: string, planId: string): Promise<ServiceOrderItem[]> {
+  private async fetchItems(settings: IntegrationSettings, serviceTypeId: string, planId: string, clientId: string, secret: string): Promise<ServiceOrderItem[]> {
     const baseUrl = asString(settings.extra.baseUrl) ?? DEFAULT_BASE_URL;
     const url = new URL(`/services/v2/service_types/${serviceTypeId}/plans/${planId}/items`, baseUrl);
     url.searchParams.set("per_page", "100");
 
     const res = await fetch(url, {
       headers: {
-        "Authorization": this.authorizationHeader(),
+        "Authorization": this.authorizationHeader(clientId, secret),
         "Accept": "application/json",
       },
     });
@@ -149,12 +151,12 @@ export class PcoManager {
     };
   }
 
-  private authorizationHeader(): string {
-    return `Bearer ${this.settingsRepository.getSecretStore().getSecret("pco", "token") ?? ""}`;
+  private authorizationHeader(clientId: string, secret: string): string {
+    return `Basic ${btoa(`${clientId}:${secret}`)}`;
   }
 
-  private hasToken(): boolean {
-    return this.settingsRepository.getSecretStore().hasSecret("pco", "token");
+  private getSecret(): string | null {
+    return this.settingsRepository.getSecretStore().getSecret("pco", "secret");
   }
 
   private scheduleRefresh(settings: IntegrationSettings) {

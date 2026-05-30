@@ -11,7 +11,7 @@ interface SecretBootstrap {
 
 const SECRET_BOOTSTRAPS: SecretBootstrap[] = [
   { integrationKey: "obs", secretKey: "password", envKey: "OBS_PASSWORD" },
-  { integrationKey: "pco", secretKey: "token", envKey: "PCO_TOKEN" },
+  { integrationKey: "pco", secretKey: "secret", envKey: "PCO_SECRET" },
 ];
 
 function parsePort(value: string | undefined): number | null {
@@ -56,6 +56,7 @@ function patchFromEnv(env: Env, integrationKey: IntegrationKey): IntegrationSett
       planId: env.PCO_PLAN_ID,
       baseUrl: env.PCO_BASE_URL,
       pollSeconds: parsePort(env.PCO_POLL_SECONDS) ?? undefined,
+      clientId: env.PCO_CLIENT_ID,
     });
     return compactPatch({
       enabled: parseEnabled(env.PCO_ENABLED),

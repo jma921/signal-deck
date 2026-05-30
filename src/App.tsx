@@ -3,6 +3,7 @@ import "./index.css";
 
 import { fmtUptime } from "./utils";
 import { useProduction } from "./production/useProduction";
+import { SettingsPage } from "./settings/SettingsPage";
 
 import { Header } from "./components/Header";
 import { CurrentSlide, NextSlide } from "./components/SlidePanels";
@@ -28,6 +29,10 @@ const TWEAK_DEFAULTS: TweakValues = {
 
 const ACCENTS = ["#3d7dff", "#8b5cf6", "#22d3ee", "#34d399"];
 
+function pathName() {
+  return window.location.pathname === "/settings" ? "/settings" : "/";
+}
+
 function tone(v: number, goodAbove: number, warnAbove: number, invert = false): string {
   if (invert) {
     if (v < goodAbove) return "#34d399";
@@ -47,6 +52,25 @@ function formatDuration(seconds: number | null): string {
 }
 
 export function App() {
+  const [route, setRoute] = useState(pathName);
+
+  useEffect(() => {
+    const onPop = () => setRoute(pathName());
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  const navigate = (next: "/" | "/settings") => {
+    window.history.pushState(null, "", next);
+    setRoute(next);
+  };
+
+  return route === "/settings"
+    ? <SettingsPage onBack={() => navigate("/")} />
+    : <Dashboard onSettings={() => navigate("/settings")} />;
+}
+
+function Dashboard({ onSettings }: { onSettings: () => void }) {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const { snapshot, actions } = useProduction({ health: t.health, liveData: t.liveData });
 
@@ -108,7 +132,7 @@ export function App() {
       className={"sd-root sd-density-" + t.density + (t.showChat ? "" : " sd-nochat")}
       style={{ "--accent": accent } as React.CSSProperties}
     >
-      <Header now={now} viewers={snapshot.viewerCount} resolution="1080p · 30fps" live={liveData} />
+      <Header now={now} viewers={snapshot.viewerCount} resolution="1080p · 30fps" live={liveData} onSettings={onSettings} />
 
       <main className="sd-grid">
         {/* LEFT */}

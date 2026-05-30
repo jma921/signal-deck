@@ -2,10 +2,11 @@
 
 SignalDeck is a Bun + React live production dashboard for a church service control room. The current app is a simulated operator view: slides, service flow, stream health, platform connections, chat, and display tweaks are all driven from local React state and seed data.
 
-## Run
+## Run From Source
 
 ```bash
 bun install
+cp .env.example .env
 bun dev
 ```
 
@@ -33,8 +34,10 @@ bun start
 
 - Use Bun commands in this repo: `bun dev`, `bun test`, `bun run build`.
 - Treat `CONTEXT.md` as the domain glossary only. Do not put implementation decisions there.
-- The app currently has no persisted data, backend integration, auth, or real platform APIs.
-- The next major direction is live integration with production systems while retaining simulation as a fallback/demo mode.
+- Runtime settings and secrets persist in local SQLite under the OS app-data directory.
+- `.env` values bootstrap missing first-run settings and secrets; SQLite runtime settings are canonical after startup.
+- Live integrations feed one coarse Production Snapshot that the browser receives over Server-Sent Events.
+- The next major direction is hardening live production-system integrations while retaining simulation as a fallback/demo mode.
 
 ## Decided Boundaries
 
@@ -49,5 +52,6 @@ bun start
 - Runtime settings and plaintext initial secrets are stored in the local SQLite database under the OS app-data directory.
 - Settings and secrets API routes are server-enforced local-only routes.
 - OBS runs through a server-side integration manager using OBS WebSocket. Its status API is sanitized and localhost-only until LAN mode exists.
+- PCO Services data updates the Service Order only; SignalDeck keeps Service Position local to the operator station.
 
 See `docs/next-steps.md` for the current implementation path.

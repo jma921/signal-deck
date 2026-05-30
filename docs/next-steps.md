@@ -12,19 +12,25 @@ Done: add minimal manual Service Position controls by clicking Service Items in 
 
 Done: add a local SQLite runtime foundation with startup migrations, typed core integration settings, plaintext scoped secrets, and local-only settings/secrets API routes.
 
-Done: add a server-side OBS integration manager with persistent connection lifecycle, sanitized status, test, and reconnect routes. OBS status is not wired into the dashboard yet.
+Done: add a server-side OBS integration manager with persistent connection lifecycle, sanitized status, test, and reconnect routes.
 
-## Then Next
+Done: keep runtime SQLite settings and local-only settings/secrets APIs as the canonical configuration surface, while allowing `.env` values to bootstrap missing first-run settings and secrets.
 
-Add a PCO Services provider for the planned Service Order while keeping SignalDeck-owned Service Position local to the app.
+Done: add a server-side Production Snapshot store and Server-Sent Events stream so live integrations can update the browser through the same coarse snapshot contract as simulation.
+
+Done: add a PCO Services provider for the planned Service Order while keeping SignalDeck-owned Service Position local to the app.
 
 Assume one operator station for the first live version. Do not add auth, persistence, or realtime multi-client synchronization until the one-station workflow is useful.
 
-PCO Services credentials should be read by the Bun server from environment variables. The browser should call local SignalDeck endpoints rather than calling PCO Services directly.
+PCO Services credentials may be bootstrapped from environment variables, but runtime settings and secrets in the local SQLite database are canonical after startup. The browser should call local SignalDeck endpoints rather than calling PCO Services directly.
 
 PCO Service Order data should load on startup, support manual refresh, and refresh in the background about every 60 seconds.
 
-If PCO Services is unavailable, keep the last successful Service Order visible, mark it stale, and preserve the local Service Position. Do not automatically replace live data with simulation data.
+If PCO Services is unavailable, keep the last successful Service Order visible, mark it stale, and preserve the local Service Position. Do not automatically replace live Service Order data with simulation data.
+
+## Then Next
+
+Add ProPresenter mirroring for Current Slide and Next Slide through the shared Production Snapshot stream.
 
 ## Not First
 
@@ -35,3 +41,4 @@ If PCO Services is unavailable, keep the last successful Service Order visible, 
 - Do not build multi-client Service Position synchronization before the one-operator live workflow is proven.
 - Do not expose PCO Services credentials in browser code or browser storage.
 - Do not silently show simulated Service Order data when the live PCO provider fails.
+- Do not let PCO Services move the Service Position automatically; the operator controls it in SignalDeck.

@@ -35,6 +35,13 @@ export class SecretStore {
     return row?.secret_value ?? null;
   }
 
+  hasSecret(integrationKey: IntegrationKey, secretKey: string): boolean {
+    const row = this.db.query<{ found: number }, [string, string]>(
+      "select 1 as found from secrets where integration_key = ? and secret_key = ?"
+    ).get(integrationKey, secretKey);
+    return row != null;
+  }
+
   getPresence(): Record<IntegrationKey, Record<string, boolean>> {
     const presence = Object.fromEntries(
       INTEGRATION_KEYS.map((key) => [key, {}])

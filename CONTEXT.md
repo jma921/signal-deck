@@ -50,6 +50,7 @@ _Avoid_: Status, signal quality
 
 **Encoder**:
 The production system that produces the live broadcast stream and owns producer-side health metrics.
+OBS is SignalDeck's first concrete **Encoder** implementation.
 _Avoid_: Stream source, broadcast app
 
 **Connection**:

@@ -53,7 +53,7 @@ export function App() {
   const [now, setNow] = useState(new Date());
   const [chatCollapsed, setChatCollapsed] = useState(false);
 
-  const liveData = t.liveData;
+  const liveData = snapshot.mode === "live" ? true : t.liveData;
   const total = snapshot.slides.slides.length;
 
   // clock

@@ -1,16 +1,21 @@
 import { serve } from "bun";
 import index from "./index.html";
-import { IntegrationManager } from "./integrations/integrationManager";
+import { ServerProductionStore } from "./production/serverProductionStore";
+import { getSanitizedConfigStatus } from "./runtime/configStatus";
 import { openRuntimeDatabase } from "./runtime/database";
+import { bootstrapRuntimeSettingsFromEnv } from "./runtime/envBootstrap";
 import { SettingsRepository, type RuntimeSettingsPatch } from "./runtime/settingsRepository";
 import { isIntegrationKey } from "./runtime/settings";
 import { isLoopbackRequest, localOnlyResponse } from "./server/localOnly";
 
 const db = openRuntimeDatabase();
 const settingsRepository = new SettingsRepository(db);
+bootstrapRuntimeSettingsFromEnv(settingsRepository);
 const runtimeSettings = settingsRepository.getRuntimeSettings();
-const integrationManager = new IntegrationManager(settingsRepository);
-integrationManager.start();
+const productionStore = new ServerProductionStore(settingsRepository);
+const integrationManager = productionStore.getIntegrationManager();
+productionStore.start();
+const port = Number(process.env.PORT ?? 3000);
 
 function requestIp(req: Request): string | null {
   try {
@@ -37,8 +42,38 @@ interface SecretPatchRequest {
   secrets?: Record<string, string | null>;
 }
 
+interface ServicePositionRequest {
+  serviceItemId?: string;
+}
+
+function snapshotStream() {
+  let unsubscribe: (() => void) | null = null;
+
+  const stream = new ReadableStream({
+    start(controller) {
+      const encoder = new TextEncoder();
+      unsubscribe = productionStore.subscribe((snapshot) => {
+        controller.enqueue(encoder.encode(`event: snapshot\ndata: ${JSON.stringify(snapshot)}\n\n`));
+      });
+    },
+    cancel() {
+      unsubscribe?.();
+      unsubscribe = null;
+    },
+  });
+
+  return new Response(stream, {
+    headers: {
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      "Connection": "keep-alive",
+    },
+  });
+}
+
 const server = serve({
   hostname: runtimeSettings.app.bindHost,
+  port,
 
   routes: {
     "/api/health": {
@@ -50,6 +85,14 @@ const server = serve({
           bindHost: runtimeSettings.app.bindHost,
           configuredBindHost: currentSettings.app.bindHost,
         });
+      },
+    },
+
+    "/api/config": {
+      async GET(req) {
+        const blocked = requireLocal(req);
+        if (blocked) return blocked;
+        return Response.json({ integrations: getSanitizedConfigStatus(settingsRepository.getRuntimeSettings()) });
       },
     },
 
@@ -68,6 +111,7 @@ const server = serve({
 
         const settings = settingsRepository.updateRuntimeSettings(body);
         void integrationManager.refresh();
+        productionStore.emit();
         return Response.json(settings);
       },
     },
@@ -93,7 +137,52 @@ const server = serve({
         }
 
         void integrationManager.refresh();
+        productionStore.emit();
         return Response.json(settingsRepository.getRuntimeSettings());
+      },
+    },
+
+    "/api/production/snapshot": {
+      async GET() {
+        return Response.json(productionStore.getSnapshot());
+      },
+    },
+
+    "/api/production/stream": {
+      async GET() {
+        return snapshotStream();
+      },
+    },
+
+    "/api/production/position": {
+      async POST(req) {
+        const blocked = requireLocal(req);
+        if (blocked) return blocked;
+
+        const body = await readJson<ServicePositionRequest>(req);
+        if (!body?.serviceItemId) return Response.json({ error: "Expected serviceItemId." }, { status: 400 });
+        if (!productionStore.setServicePosition(body.serviceItemId)) {
+          return Response.json({ error: "Unknown Service Item." }, { status: 404 });
+        }
+        return Response.json(productionStore.getSnapshot());
+      },
+    },
+
+    "/api/production/advance": {
+      async POST(req) {
+        const blocked = requireLocal(req);
+        if (blocked) return blocked;
+        if (!productionStore.advanceServicePosition()) return Response.json({ error: "Cannot advance Service Position." }, { status: 400 });
+        return Response.json(productionStore.getSnapshot());
+      },
+    },
+
+    "/api/production/retreat": {
+      async POST(req) {
+        const blocked = requireLocal(req);
+        if (blocked) return blocked;
+        if (!productionStore.retreatServicePosition()) return Response.json({ error: "Cannot retreat Service Position." }, { status: 400 });
+        return Response.json(productionStore.getSnapshot());
       },
     },
 
@@ -118,6 +207,14 @@ const server = serve({
         const blocked = requireLocal(req);
         if (blocked) return blocked;
         return Response.json(await integrationManager.reconnectObs());
+      },
+    },
+
+    "/api/integrations/pco/refresh": {
+      async POST(req) {
+        const blocked = requireLocal(req);
+        if (blocked) return blocked;
+        return Response.json(await integrationManager.refreshPco());
       },
     },
 

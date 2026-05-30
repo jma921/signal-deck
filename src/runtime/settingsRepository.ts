@@ -104,6 +104,15 @@ export class SettingsRepository {
     return this.secretStore;
   }
 
+  integrationLooksDefault(integrationKey: IntegrationKey): boolean {
+    const current = this.getIntegrationSettings()[integrationKey];
+    const defaults = DEFAULT_INTEGRATION_SETTINGS[integrationKey];
+    return current.enabled === defaults.enabled
+      && current.host === defaults.host
+      && current.port === defaults.port
+      && JSON.stringify(current.extra) === JSON.stringify(defaults.extra);
+  }
+
   private getAppSettings(): AppSettings {
     const rows = this.db.query<AppSettingRow, []>("select key, value from app_settings").all();
     const values = Object.fromEntries(rows.map((row) => [row.key, row.value]));

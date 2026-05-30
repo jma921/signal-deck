@@ -1,4 +1,5 @@
 import type { IntegrationKey } from "../runtime/settings";
+import type { ServiceOrder } from "../production/types";
 
 export type IntegrationRuntimeState = "disabled" | "missing-config" | "connecting" | "connected" | "error";
 
@@ -13,4 +14,8 @@ export interface IntegrationStatus {
 export interface IntegrationTestResult {
   ok: boolean;
   status: IntegrationStatus;
+}
+
+export interface IntegrationData {
+  serviceOrder?: ServiceOrder | null;
 }

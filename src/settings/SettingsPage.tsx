@@ -36,6 +36,7 @@ const CONNECTION_LABEL: Record<IntegrationKey, string> = {
   pco: "PCO Services",
   propresenter: "ProPresenter",
   obs: "OBS Encoder",
+  socialstream: "Social Stream",
 };
 
 async function apiJson<T>(path: string, init?: RequestInit): Promise<T> {
@@ -205,6 +206,11 @@ export function SettingsPage({ onBack }: SettingsPageProps) {
         password: current.obs.password,
         clearPassword: current.obs.clearPassword,
       },
+      socialstream: {
+        ...formFromRuntimeSettings(runtime).socialstream,
+        sessionId: current.socialstream.sessionId,
+        clearSessionId: current.socialstream.clearSessionId,
+      },
     } : formFromRuntimeSettings(runtime));
     setConfig(configResponse.integrations);
     setStatuses(statusResponse.integrations);
@@ -228,8 +234,8 @@ export function SettingsPage({ onBack }: SettingsPageProps) {
     };
   }, [refresh]);
 
-  const save = useCallback(async () => {
-    if (!form) return;
+  const save = useCallback(async (): Promise<boolean> => {
+    if (!form) return false;
     setSaving(true);
     setError(null);
     setSaveMessage(null);
@@ -252,11 +258,14 @@ export function SettingsPage({ onBack }: SettingsPageProps) {
         ...current,
         pco: { ...current.pco, secret: "", clearSecret: false },
         obs: { ...current.obs, password: "", clearPassword: false },
+        socialstream: { ...current.socialstream, sessionId: "", clearSessionId: false },
       } : current);
       await refresh();
       setSaveMessage({ tone: "ok", message: "Connections Settings saved." });
+      return true;
     } catch (err) {
       setSaveMessage({ tone: "err", message: err instanceof Error ? err.message : "Save failed." });
+      return false;
     } finally {
       setSaving(false);
     }
@@ -273,9 +282,15 @@ export function SettingsPage({ onBack }: SettingsPageProps) {
     }
   }, [refresh]);
 
+  const saveAndRunAction = useCallback(async (path: string, success: string) => {
+    if (await save()) {
+      await runAction(path, success);
+    }
+  }, [save, runAction]);
+
   const pageTone = useMemo(() => {
     if (!config) return "warn";
-    return (config.pco.configured && config.obs.configured) ? "ok" : "warn";
+    return (config.pco.configured && config.obs.configured && config.socialstream.configured) ? "ok" : "warn";
   }, [config]);
 
   if (loadState === "loading" || !form) {
@@ -362,7 +377,7 @@ export function SettingsPage({ onBack }: SettingsPageProps) {
                 <TextInput value={form.pco.serviceTypeId} onChange={(event) => updateNested(setForm, "pco", "serviceTypeId", event.target.value)} />
               </Field>
               <Field label="Plan ID">
-                <TextInput value={form.pco.planId} onChange={(event) => updateNested(setForm, "pco", "planId", event.target.value)} />
+                <TextInput value={form.pco.planId} placeholder="Leave blank to use next upcoming plan" onChange={(event) => updateNested(setForm, "pco", "planId", event.target.value)} />
               </Field>
               <Field label="Base URL" wide>
                 <TextInput value={form.pco.baseUrl} placeholder="https://api.planningcenteronline.com" onChange={(event) => updateNested(setForm, "pco", "baseUrl", event.target.value)} />
@@ -438,9 +453,31 @@ export function SettingsPage({ onBack }: SettingsPageProps) {
               onClear={(checked) => updateNested(setForm, "obs", "clearPassword", checked)}
             />
             <MissingList config={config?.obs} />
-            <button className="sd-settings-secondary" type="button" onClick={() => void runAction("/api/integrations/obs/test", "OBS test requested.")}>
+            <button className="sd-settings-secondary" type="button" onClick={() => void saveAndRunAction("/api/integrations/obs/test", "OBS test connection succeeded.")}>
               Test OBS Connection
             </button>
+          </Panel>
+
+          <Panel
+            title="Social Stream"
+            right={<StatusPill tone={statusTone(config, statuses, "socialstream")}>{config?.socialstream.configured ? "configured" : "missing"}</StatusPill>}
+            bodyClass="sd-settings-panel"
+          >
+            <ConnectionRuntime status={statuses.find((status) => status.integrationKey === "socialstream")} />
+            <Toggle
+              label="Enabled"
+              checked={form.socialstream.enabled}
+              onChange={(checked) => updateNested(setForm, "socialstream", "enabled", checked)}
+            />
+            <SecretField
+              label="Session ID"
+              saved={settings?.secretPresence.socialstream?.sessionId === true}
+              value={form.socialstream.sessionId}
+              clear={form.socialstream.clearSessionId}
+              onValue={(value) => updateNested(setForm, "socialstream", "sessionId", value)}
+              onClear={(checked) => updateNested(setForm, "socialstream", "clearSessionId", checked)}
+            />
+            <MissingList config={config?.socialstream} />
           </Panel>
         </div>
 

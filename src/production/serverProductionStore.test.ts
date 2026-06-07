@@ -37,6 +37,8 @@ test("server production store exposes one Connection row per integration manager
 
   expect(snapshot.connections.map((connection) => connection.id)).toEqual([
     "pco",
+    "propresenter",
     "obs",
+    "socialstream",
   ]);
 });

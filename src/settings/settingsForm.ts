@@ -58,6 +58,11 @@ export interface SettingsFormState {
     password: string;
     clearPassword: boolean;
   };
+  socialstream: {
+    enabled: boolean;
+    sessionId: string;
+    clearSessionId: boolean;
+  };
 }
 
 function stringValue(value: unknown): string {
@@ -86,6 +91,7 @@ export function formFromRuntimeSettings(settings: RuntimeSettings): SettingsForm
   const pco = settings.integrations.pco;
   const propresenter = settings.integrations.propresenter;
   const obs = settings.integrations.obs;
+  const socialstream = settings.integrations.socialstream;
 
   return {
     appMode: settings.app.mode,
@@ -110,6 +116,11 @@ export function formFromRuntimeSettings(settings: RuntimeSettings): SettingsForm
       port: numberString(obs.port),
       password: "",
       clearPassword: false,
+    },
+    socialstream: {
+      enabled: socialstream.enabled,
+      sessionId: "",
+      clearSessionId: false,
     },
   };
 }
@@ -140,6 +151,9 @@ export function runtimeSettingsPatchFromForm(form: SettingsFormState): RuntimeSe
         host: form.obs.host.trim() || null,
         port: numberOrNull(form.obs.port),
       },
+      socialstream: {
+        enabled: form.socialstream.enabled,
+      },
     },
   };
 }
@@ -148,6 +162,7 @@ export function secretPatchRequestsFromForm(form: SettingsFormState): SecretPatc
   const requests: SecretPatchRequest[] = [];
   const pcoSecret = form.pco.secret.trim();
   const obsPassword = form.obs.password;
+  const sessionId = form.socialstream.sessionId.trim();
 
   if (pcoSecret || form.pco.clearSecret) {
     requests.push({
@@ -163,6 +178,15 @@ export function secretPatchRequestsFromForm(form: SettingsFormState): SecretPatc
       integrationKey: "obs",
       secrets: {
         password: obsPassword || null,
+      },
+    });
+  }
+
+  if (sessionId || form.socialstream.clearSessionId) {
+    requests.push({
+      integrationKey: "socialstream",
+      secrets: {
+        sessionId: sessionId || null,
       },
     });
   }

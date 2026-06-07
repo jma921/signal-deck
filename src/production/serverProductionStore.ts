@@ -9,6 +9,7 @@ import type {
   ServiceOrder,
   ServiceOrderItem,
   ServicePositionUpdatedBy,
+  SlideState,
   StreamHealth,
 } from "./types";
 
@@ -26,6 +27,7 @@ const CONNECTION_NAMES = {
   propresenter: "ProPresenter 7",
   pco: "PCO Services",
   obs: "OBS Encoder",
+  socialstream: "Social Stream",
 } as const;
 
 function nowIso() {
@@ -50,6 +52,21 @@ function simulationOrder(): ServiceOrder {
     items: simulationItems(),
     stale: false,
     lastSyncedAt: null,
+  };
+}
+
+function blankSlides(): SlideState {
+  return { presentation: "", currentText: "", currentLabel: "", nextText: "", nextLabel: "", live: false };
+}
+
+function simulationSlides(): SlideState {
+  return {
+    presentation: SONG.presentation,
+    currentText: SONG.slides[2]?.lines.join("\n") ?? "",
+    currentLabel: SONG.slides[2]?.label ?? "",
+    nextText: SONG.slides[3]?.lines.join("\n") ?? "",
+    nextLabel: SONG.slides[3]?.label ?? "",
+    live: true,
   };
 }
 
@@ -131,6 +148,9 @@ export class ServerProductionStore {
     const activeItem = items.find((item) => item.id === serviceItemId) ?? items[0] ?? null;
     const elapsedSeconds = Math.max(0, Math.floor((Date.now() - this.timingStartedAt) / 1000));
     const plannedDurationSeconds = activeItem?.durationSeconds ?? null;
+    const slides = settings.app.mode === "live"
+      ? (data.slideState ?? blankSlides())
+      : simulationSlides();
 
     return {
       mode: settings.app.mode,
@@ -148,17 +168,10 @@ export class ServerProductionStore {
         remainingSeconds: plannedDurationSeconds == null ? null : plannedDurationSeconds - elapsedSeconds,
         state: activeItem ? "running" : "stopped",
       },
-      slides: {
-        presentation: SONG.presentation,
-        arrangement: SONG.arrangement,
-        slides: SONG.slides,
-        currentIndex: 2,
-        nextIndex: 3,
-        live: settings.app.mode === "live",
-      },
+      slides,
       streamHealth: simulationHealth(),
       connections: this.connections(),
-      chatMessages: normalizeChat(simulationChat()),
+      chatMessages: normalizeChat(data.chatMessages ?? (settings.app.mode === "live" ? [] : simulationChat())),
       viewerCount: 0,
       simulation: settings.app.mode === "simulation" ? { serviceAutoAdvanceEnabled: false } : null,
       updatedAt: nowIso(),

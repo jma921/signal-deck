@@ -65,6 +65,14 @@ _Avoid_: User, attendee, audience member
 A message from a **Viewer** on a streaming platform during a **Service**.
 _Avoid_: Comment, post
 
+**Broadcast**:
+A message sent by the SignalDeck operator to all connected streaming platforms simultaneously. Used for sermon points, scripture references, and announcements that are relevant to all viewers regardless of platform.
+_Avoid_: Post, update, push
+
+**Reply**:
+A response from the SignalDeck operator to a specific **Chat Message**, sent only to the platform where that message originated.
+_Avoid_: Comment, response, answer
+
 **Playlist**:
 A compact visual progression of the **Service Order**.
 _Avoid_: Queue, timeline

@@ -45,10 +45,10 @@ export interface ServiceTiming {
 
 export interface SlideState {
   presentation: string;
-  arrangement: string;
-  slides: Slide[];
-  currentIndex: number;
-  nextIndex: number;
+  currentText: string;
+  currentLabel: string;
+  nextText: string;
+  nextLabel: string;
   live: boolean;
 }
 

@@ -1,4 +1,4 @@
-export type IntegrationKey = "obs" | "pco" | "propresenter";
+export type IntegrationKey = "obs" | "pco" | "propresenter" | "socialstream";
 export type RuntimeMode = "simulation" | "live";
 
 export interface AppSettings {
@@ -26,7 +26,7 @@ export interface RuntimeSettings {
   secretPresence: Record<IntegrationKey, Record<string, boolean>>;
 }
 
-export const INTEGRATION_KEYS: IntegrationKey[] = ["obs", "pco", "propresenter"];
+export const INTEGRATION_KEYS: IntegrationKey[] = ["obs", "pco", "propresenter", "socialstream"];
 
 export const DEFAULT_APP_SETTINGS: AppSettings = {
   mode: "simulation",
@@ -53,6 +53,13 @@ export const DEFAULT_INTEGRATION_SETTINGS: Record<IntegrationKey, IntegrationSet
     integrationKey: "propresenter",
     enabled: false,
     host: "127.0.0.1",
+    port: null,
+    extra: {},
+  },
+  socialstream: {
+    integrationKey: "socialstream",
+    enabled: false,
+    host: null,
     port: null,
     extra: {},
   },

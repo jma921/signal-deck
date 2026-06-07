@@ -42,11 +42,19 @@ function runtimeSettings(): RuntimeSettings {
         port: 4455,
         extra: {},
       },
+      socialstream: {
+        integrationKey: "socialstream",
+        enabled: false,
+        host: null,
+        port: null,
+        extra: {},
+      },
     },
     secretPresence: {
       pco: { secret: true },
       propresenter: {},
       obs: { password: true },
+      socialstream: {},
     },
   };
 }
@@ -86,6 +94,11 @@ test("settings form serializes runtime settings separately from secrets", () => 
       password: "",
       clearPassword: true,
     },
+    socialstream: {
+      enabled: true,
+      sessionId: "my-session-id",
+      clearSessionId: false,
+    },
   };
 
   expect(runtimeSettingsPatchFromForm(form)).toEqual({
@@ -111,12 +124,16 @@ test("settings form serializes runtime settings separately from secrets", () => 
         host: "10.0.0.21",
         port: 4455,
       },
+      socialstream: {
+        enabled: true,
+      },
     },
   });
 
   expect(secretPatchRequestsFromForm(form)).toEqual([
     { integrationKey: "pco", secrets: { secret: "secret-token" } },
     { integrationKey: "obs", secrets: { password: null } },
+    { integrationKey: "socialstream", secrets: { sessionId: "my-session-id" } },
   ]);
 });
 

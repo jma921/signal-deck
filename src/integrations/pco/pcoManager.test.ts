@@ -76,3 +76,47 @@ test("PCO manager requires a client ID and secret", async () => {
   expect(manager.getStatus().message).toContain("client ID");
   expect(manager.getStatus().message).toContain("secret");
 });
+
+test("PCO manager auto-resolves plan ID from upcoming plans when planId is not configured", async () => {
+  const db = new Database(":memory:");
+  runMigrations(db);
+  seedDefaultSettings(db);
+  const settingsRepository = new SettingsRepository(db);
+  settingsRepository.updateRuntimeSettings({
+    integrations: {
+      pco: {
+        enabled: true,
+        extra: {
+          serviceTypeId: "service-type-1",
+          // planId intentionally omitted
+          clientId: "pco-client-id",
+        },
+      },
+    },
+  });
+  settingsRepository.getSecretStore().setSecret("pco", "secret", "pco-secret");
+  const manager = new PcoManager(settingsRepository, () => {});
+
+  const fetchedUrls: string[] = [];
+  globalThis.fetch = async (input) => {
+    const url = String(input);
+    fetchedUrls.push(url);
+    if (url.includes("/plans?") && url.includes("filter=future")) {
+      return Response.json({ data: [{ id: "auto-plan-99" }] });
+    }
+    if (url.includes("/plans/auto-plan-99/items")) {
+      return Response.json({
+        data: [{ id: "item-1", attributes: { title: "Welcome Song", item_type: "song", length: 180 } }],
+      });
+    }
+    return new Response("Not found", { status: 404 });
+  };
+
+  await manager.refresh();
+
+  expect(manager.getStatus().state).toBe("connected");
+  expect(manager.getStatus().resolvedPlanId).toBe("auto-plan-99");
+  expect(manager.getServiceOrder()?.items[0]?.name).toBe("Welcome Song");
+  expect(fetchedUrls.some((url) => url.includes("filter=future"))).toBe(true);
+  expect(fetchedUrls.some((url) => url.includes("/plans/auto-plan-99/items"))).toBe(true);
+});

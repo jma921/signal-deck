@@ -78,7 +78,6 @@ function Dashboard({ onSettings }: { onSettings: () => void }) {
   const [chatCollapsed, setChatCollapsed] = useState(false);
 
   const liveData = snapshot.mode === "live" ? true : t.liveData;
-  const total = snapshot.slides.slides.length;
 
   // clock
   useEffect(() => {
@@ -119,11 +118,6 @@ function Dashboard({ onSettings }: { onSettings: () => void }) {
 
   const accent = t.accent;
   const nextSvc = snapshot.serviceOrder.items[Math.min(activeSvc + 1, snapshot.serviceOrder.items.length - 1)];
-  const song = {
-    presentation: snapshot.slides.presentation,
-    arrangement: snapshot.slides.arrangement,
-    slides: snapshot.slides.slides,
-  };
   const healthLabel = snapshot.streamHealth.state.toUpperCase();
   const healthColor = snapshot.streamHealth.state === "healthy" ? "#34d399" : snapshot.streamHealth.state === "degraded" ? "#f0b429" : "#ff5c5c";
 
@@ -138,18 +132,16 @@ function Dashboard({ onSettings }: { onSettings: () => void }) {
         {/* LEFT */}
         <div className="sd-col sd-col-left">
           <CurrentSlide
-            song={song}
-            slide={snapshot.slides.slides[snapshot.slides.currentIndex]!}
-            idx={snapshot.slides.currentIndex}
-            total={total}
+            presentation={snapshot.slides.presentation}
+            text={snapshot.slides.currentText}
+            label={snapshot.slides.currentLabel}
             accent={accent}
             live={snapshot.slides.live}
           />
           <NextSlide
-            song={song}
-            slide={snapshot.slides.slides[snapshot.slides.nextIndex]!}
-            idx={snapshot.slides.nextIndex}
-            total={total}
+            presentation={snapshot.slides.presentation}
+            text={snapshot.slides.nextText}
+            label={snapshot.slides.nextLabel}
             accent={accent}
           />
         </div>

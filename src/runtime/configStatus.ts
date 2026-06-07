@@ -33,9 +33,10 @@ function requiredFields(settings: RuntimeSettings, integrationKey: IntegrationKe
     addMissing(missing, typeof integration.port === "number", "PROPRESENTER_PORT");
   } else if (integrationKey === "pco") {
     addMissing(missing, hasString(integration.extra.serviceTypeId), "PCO_SERVICE_TYPE_ID");
-    addMissing(missing, hasString(integration.extra.planId), "PCO_PLAN_ID");
     addMissing(missing, hasString(integration.extra.clientId), "PCO_CLIENT_ID");
     addMissing(missing, hasSecret(settings, "pco", "secret"), "PCO_SECRET");
+  } else if (integrationKey === "socialstream") {
+    addMissing(missing, hasSecret(settings, "socialstream", "sessionId"), "SOCIALSTREAM_SESSION_ID");
   }
 
   return missing;

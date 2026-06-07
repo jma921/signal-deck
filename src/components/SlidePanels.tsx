@@ -1,22 +1,22 @@
-import { Dot, HdCount, Panel } from "./atoms";
-import type { Slide, Song } from "../data";
+import { Dot, Panel } from "./atoms";
 
 function Stage({
-  slide,
-  song,
-  pos,
-  total,
+  text,
+  label,
+  presentation,
   dim = false,
   accent,
+  blankLabel = "",
 }: {
-  slide: Slide | undefined;
-  song: string;
-  pos: number;
-  total: number;
+  text: string;
+  label: string;
+  presentation: string;
   dim?: boolean;
   accent: string;
+  blankLabel?: string;
 }) {
-  const blank = !slide || slide.lines.length === 0;
+  const lines = text.split("\n").filter((line) => line.length > 0);
+  const blank = lines.length === 0;
   return (
     <div className={"sd-stage" + (dim ? " sd-stage--dim" : "")}>
       <div className="sd-stage-bg" />
@@ -24,22 +24,19 @@ function Stage({
 
       <div className="sd-stage-top">
         <span className="sd-chip" style={{ borderColor: accent + "66", color: "#dfe6f5" }}>
-          {slide ? slide.label : "—"}
-        </span>
-        <span className="sd-chip sd-chip--pos">
-          {pos} / {total}
+          {label || "—"}
         </span>
       </div>
 
-      <div className="sd-stage-song">{song}</div>
+      <div className="sd-stage-song">{presentation}</div>
 
       <div className="sd-stage-lyric">
         {blank ? (
-          <span className="sd-stage-blank">{slide ? "— instrumental —" : ""}</span>
+          <span className="sd-stage-blank">{blankLabel}</span>
         ) : (
-          slide!.lines.map((l, i) => (
+          lines.map((line, i) => (
             <div key={i} className="sd-lyric-line">
-              {l}
+              {line}
             </div>
           ))
         )}
@@ -49,17 +46,15 @@ function Stage({
 }
 
 export function CurrentSlide({
-  song,
-  slide,
-  idx,
-  total,
+  presentation,
+  text,
+  label,
   accent,
   live,
 }: {
-  song: Song;
-  slide: Slide;
-  idx: number;
-  total: number;
+  presentation: string;
+  text: string;
+  label: string;
   accent: string;
   live: boolean;
 }) {
@@ -75,42 +70,30 @@ export function CurrentSlide({
       }
       bodyClass="sd-slidebody"
     >
-      <Stage slide={slide} song={song.presentation} pos={idx + 1} total={total} accent={accent} />
+      <Stage text={text} label={label} presentation={presentation} accent={accent} blankLabel={live ? "— instrumental —" : ""} />
       <div className="sd-stage-foot">
         <div className="sd-stage-foot-l">
-          <div className="sd-foot-pres">{song.presentation}</div>
-          <div className="sd-foot-arr">{song.arrangement}</div>
+          <div className="sd-foot-pres">{presentation || "—"}</div>
         </div>
-        <div className="sd-stage-foot-r">{slide ? slide.label : "—"}</div>
       </div>
     </Panel>
   );
 }
 
 export function NextSlide({
-  song,
-  slide,
-  idx,
-  total,
+  presentation,
+  text,
+  label,
   accent,
 }: {
-  song: Song;
-  slide: Slide;
-  idx: number;
-  total: number;
+  presentation: string;
+  text: string;
+  label: string;
   accent: string;
 }) {
   return (
-    <Panel
-      title="Next Slide"
-      right={
-        <HdCount>
-          {idx + 1} / {total}
-        </HdCount>
-      }
-      bodyClass="sd-slidebody"
-    >
-      <Stage slide={slide} song={song.presentation} pos={idx + 1} total={total} accent={accent} dim />
+    <Panel title="Next Slide" bodyClass="sd-slidebody">
+      <Stage text={text} label={label} presentation={presentation} accent={accent} dim />
     </Panel>
   );
 }

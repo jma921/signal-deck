@@ -195,10 +195,10 @@ export function useSimulationProduction({ health, liveData }: SimulationProvider
     },
     slides: {
       presentation: SONG.presentation,
-      arrangement: SONG.arrangement,
-      slides: SONG.slides,
-      currentIndex: slideIdx,
-      nextIndex: (slideIdx + 1) % SONG.slides.length,
+      currentText: SONG.slides[slideIdx]?.lines.join("\n") ?? "",
+      currentLabel: SONG.slides[slideIdx]?.label ?? "",
+      nextText: SONG.slides[(slideIdx + 1) % SONG.slides.length]?.lines.join("\n") ?? "",
+      nextLabel: SONG.slides[(slideIdx + 1) % SONG.slides.length]?.label ?? "",
       live: liveData,
     },
     streamHealth: {

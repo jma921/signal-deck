@@ -1,0 +1,1543 @@
+{
+  "version": "1.0.0",
+  "project": {
+    "name": "SignalDeck",
+    "languages": [
+      "TypeScript",
+      "React",
+      "CSS",
+      "HTML",
+      "Markdown"
+    ],
+    "frameworks": [
+      "Bun",
+      "React",
+      "TailwindCSS"
+    ],
+    "description": "A Bun + React live production dashboard for church service control rooms.",
+    "analyzedAt": "2026-05-31T20:00:00Z",
+    "gitCommitHash": "071f43bc2065ac5ff1f146f0daf67e82d1157072"
+  },
+  "nodes": [
+    {
+      "id": "file:src/App.tsx",
+      "type": "file",
+      "name": "App.tsx",
+      "filePath": "src/App.tsx",
+      "summary": "Main React application component that handles top-level routing and dashboard layout.",
+      "tags": [
+        "react",
+        "frontend",
+        "routing",
+        "layout"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:component:App",
+      "type": "component",
+      "name": "App",
+      "summary": "The root component of the SignalDeck frontend, managing route state and rendering Dashboard or Settings.",
+      "tags": [
+        "react",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:component:Dashboard",
+      "type": "component",
+      "name": "Dashboard",
+      "summary": "The main production dashboard view, orchestrating production state and multiple UI panels.",
+      "tags": [
+        "react",
+        "component"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/frontend.tsx",
+      "type": "file",
+      "name": "frontend.tsx",
+      "filePath": "src/frontend.tsx",
+      "summary": "Entry point for the React application, responsible for mounting the root App component.",
+      "tags": [
+        "react",
+        "entry-point",
+        "mounting"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/index.html",
+      "type": "file",
+      "name": "index.html",
+      "filePath": "src/index.html",
+      "summary": "Main HTML template for the application, defining the root element and loading the frontend script.",
+      "tags": [
+        "html",
+        "frontend"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/components/atoms.tsx",
+      "type": "file",
+      "name": "atoms.tsx",
+      "filePath": "src/components/atoms.tsx",
+      "summary": "Collection of small, reusable UI primitives like Dot, Panel, and HdCount.",
+      "tags": [
+        "react",
+        "ui",
+        "atoms"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/components/ChatPanel.tsx",
+      "type": "file",
+      "name": "ChatPanel.tsx",
+      "filePath": "src/components/ChatPanel.tsx",
+      "summary": "Panel for viewing and interacting with chat messages from integrated platforms.",
+      "tags": [
+        "react",
+        "component",
+        "chat"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/components/ConnectionStatus.tsx",
+      "type": "file",
+      "name": "ConnectionStatus.tsx",
+      "filePath": "src/components/ConnectionStatus.tsx",
+      "summary": "Displays the real-time status of various external service integrations.",
+      "tags": [
+        "react",
+        "component",
+        "status"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/components/Header.tsx",
+      "type": "file",
+      "name": "Header.tsx",
+      "filePath": "src/components/Header.tsx",
+      "summary": "Global dashboard header containing branding, service metadata, and status badges.",
+      "tags": [
+        "react",
+        "component",
+        "header"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/components/PcoTimer.tsx",
+      "type": "file",
+      "name": "PcoTimer.tsx",
+      "filePath": "src/components/PcoTimer.tsx",
+      "summary": "Displays the countdown timer from Planning Center Online for the current service item.",
+      "tags": [
+        "react",
+        "component",
+        "timer"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/components/PlaylistStrip.tsx",
+      "type": "file",
+      "name": "PlaylistStrip.tsx",
+      "filePath": "src/components/PlaylistStrip.tsx",
+      "summary": "A horizontal overview of the service items, showing current progress and item metadata.",
+      "tags": [
+        "react",
+        "component",
+        "playlist"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/components/ServiceOrder.tsx",
+      "type": "file",
+      "name": "ServiceOrder.tsx",
+      "filePath": "src/components/ServiceOrder.tsx",
+      "summary": "Detailed vertical list of service items with status indicators and selection capability.",
+      "tags": [
+        "react",
+        "component",
+        "service-order"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/components/SlidePanels.tsx",
+      "type": "file",
+      "name": "SlidePanels.tsx",
+      "filePath": "src/components/SlidePanels.tsx",
+      "summary": "Displays previews of the current and next slides from the presentation software.",
+      "tags": [
+        "react",
+        "component",
+        "slides"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/components/StreamHealth.tsx",
+      "type": "file",
+      "name": "StreamHealth.tsx",
+      "filePath": "src/components/StreamHealth.tsx",
+      "summary": "Visualizes encoding metrics and overall health of the live stream.",
+      "tags": [
+        "react",
+        "component",
+        "metrics",
+        "health"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/components/TweaksPanel.tsx",
+      "type": "file",
+      "name": "TweaksPanel.tsx",
+      "filePath": "src/components/TweaksPanel.tsx",
+      "summary": "A debug panel for simulating different production states and adjusting UI appearance.",
+      "tags": [
+        "react",
+        "component",
+        "debug",
+        "simulation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:hook:useTweaks",
+      "type": "hook",
+      "name": "useTweaks",
+      "summary": "Custom hook for managing simulation 'tweaks' state, supporting design host integration.",
+      "tags": [
+        "react",
+        "hook"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/index.css",
+      "type": "file",
+      "name": "index.css",
+      "filePath": "src/index.css",
+      "summary": "Global CSS styles for the application, including dashboard layout and panel designs.",
+      "tags": [
+        "css",
+        "styling"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/data.ts",
+      "type": "file",
+      "label": "src/data.ts",
+      "properties": {
+        "language": "typescript",
+        "category": "code",
+        "purpose": "Provides static seed data and interfaces for simulation, including songs, service items, connections, chat, and health configurations."
+      },
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/integrations/integrationManager.ts",
+      "type": "file",
+      "label": "src/integrations/integrationManager.ts",
+      "properties": {
+        "language": "typescript",
+        "category": "code",
+        "purpose": "Orchestrates lifecycle and data retrieval for all external integrations (OBS, PCO, ProPresenter, SocialStream)."
+      },
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/integrations/obs/obsManager.ts",
+      "type": "file",
+      "label": "src/integrations/obs/obsManager.ts",
+      "properties": {
+        "language": "typescript",
+        "category": "code",
+        "purpose": "Manages the WebSocket connection to OBS Studio, handles reconnection logic, and exposes connection status."
+      },
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/integrations/pco/pcoManager.test.ts",
+      "type": "file",
+      "label": "src/integrations/pco/pcoManager.test.ts",
+      "properties": {
+        "language": "typescript",
+        "category": "code",
+        "purpose": "Unit tests for PcoManager, mocking fetch to verify plan resolution and service order synchronization."
+      },
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/integrations/pco/pcoManager.ts",
+      "type": "file",
+      "label": "src/integrations/pco/pcoManager.ts",
+      "properties": {
+        "language": "typescript",
+        "category": "code",
+        "purpose": "Integrates with Planning Center Online Services API to fetch and sync the service order."
+      },
+      "complexity": "moderate",
+      "tags": [
+        "tested"
+      ]
+    },
+    {
+      "id": "file:src/integrations/status.ts",
+      "type": "file",
+      "label": "src/integrations/status.ts",
+      "properties": {
+        "language": "typescript",
+        "category": "code",
+        "purpose": "Utility functions for creating standardized integration status objects and sanitizing errors."
+      },
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/integrations/types.ts",
+      "type": "file",
+      "label": "src/integrations/types.ts",
+      "properties": {
+        "language": "typescript",
+        "category": "code",
+        "purpose": "Defines shared TypeScript interfaces and types for the integration layer."
+      },
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/production/serverProductionStore.test.ts",
+      "type": "file",
+      "label": "src/production/serverProductionStore.test.ts",
+      "properties": {
+        "language": "typescript",
+        "category": "code",
+        "purpose": "Unit tests for ServerProductionStore, verifying service position persistence and connection row mapping."
+      },
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/production/serverProductionStore.ts",
+      "type": "file",
+      "label": "src/production/serverProductionStore.ts",
+      "properties": {
+        "language": "typescript",
+        "category": "code",
+        "purpose": "Server-side state container that aggregates data from integrations and maintains the canonical production snapshot."
+      },
+      "complexity": "moderate",
+      "tags": [
+        "tested"
+      ]
+    },
+    {
+      "id": "file:src/production/simulationProvider.ts",
+      "type": "file",
+      "label": "src/production/simulationProvider.ts",
+      "properties": {
+        "language": "typescript",
+        "category": "code",
+        "purpose": "React hook that provides a fully simulated production state for development and testing without live integrations."
+      },
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/production/types.ts",
+      "type": "file",
+      "label": "src/production/types.ts",
+      "properties": {
+        "language": "typescript",
+        "category": "code",
+        "purpose": "Canonical domain types for the production state, including snapshots, service orders, timing, and health."
+      },
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/production/useProduction.ts",
+      "type": "file",
+      "label": "src/production/useProduction.ts",
+      "properties": {
+        "language": "typescript",
+        "category": "code",
+        "purpose": "Primary React hook for the frontend that subscribes to server updates via EventSource or falls back to simulation."
+      },
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:.claude/launch.json",
+      "type": "config",
+      "label": "launch.json",
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:.cursor/rules/use-bun-instead-of-node-vite-npm-pnpm.mdc",
+      "type": "document",
+      "label": "use-bun-instead-of-node-vite-npm-pnpm.mdc",
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:.env.example",
+      "type": "config",
+      "label": ".env.example",
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:.gitignore",
+      "type": "config",
+      "label": ".gitignore",
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:AGENTS.md",
+      "type": "document",
+      "label": "AGENTS.md",
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:CLAUDE.md",
+      "type": "document",
+      "label": "CLAUDE.md",
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:CONTEXT.md",
+      "type": "document",
+      "label": "CONTEXT.md",
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:README.md",
+      "type": "document",
+      "label": "README.md",
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:script:build.ts",
+      "type": "script",
+      "label": "build.ts",
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:bun-env.d.ts",
+      "type": "file",
+      "label": "bun-env.d.ts",
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:bun.lock",
+      "type": "config",
+      "label": "bun.lock",
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:bunfig.toml",
+      "type": "config",
+      "label": "bunfig.toml",
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/adr/0001-live-integrations-with-simulation-mode.md",
+      "type": "document",
+      "label": "0001-live-integrations-with-simulation-mode.md",
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/adr/0002-pco-services-owns-service-order.md",
+      "type": "document",
+      "label": "0002-pco-services-owns-service-order.md",
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/adr/0003-signaldeck-owns-service-position.md",
+      "type": "document",
+      "label": "0003-signaldeck-owns-service-position.md",
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/adr/0004-propresenter-owns-slide-state.md",
+      "type": "document",
+      "label": "0004-propresenter-owns-slide-state.md",
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/adr/0005-encoder-owns-stream-health.md",
+      "type": "document",
+      "label": "0005-encoder-owns-stream-health.md",
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/adr/0006-shared-provider-contract-for-simulation-and-live-data.md",
+      "type": "document",
+      "label": "0006-shared-provider-contract-for-simulation-and-live-data.md",
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/adr/0007-production-snapshot-provider-contract.md",
+      "type": "document",
+      "label": "0007-production-snapshot-provider-contract.md",
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/adr/0008-one-operator-station-first.md",
+      "type": "document",
+      "label": "0008-one-operator-station-first.md",
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/adr/0009-server-side-pco-credentials.md",
+      "type": "document",
+      "label": "0009-server-side-pco-credentials.md",
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/adr/0010-runtime-settings-canonical-env-bootstrap.md",
+      "type": "document",
+      "label": "0010-runtime-settings-canonical-env-bootstrap.md",
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/next-steps.md",
+      "type": "document",
+      "label": "next-steps.md",
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:package.json",
+      "type": "config",
+      "label": "package.json",
+      "complexity": "moderate"
+    },
+    {
+      "id": "service:src/index.ts",
+      "type": "service",
+      "label": "index.ts",
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:style:src/logo.svg",
+      "type": "style",
+      "label": "logo.svg",
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:style:src/react.svg",
+      "type": "style",
+      "label": "react.svg",
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/runtime/appDataPath.ts",
+      "type": "file",
+      "label": "appDataPath.ts",
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/runtime/configStatus.ts",
+      "type": "file",
+      "label": "configStatus.ts",
+      "complexity": "moderate"
+    },
+    {
+      "id": "service:src/runtime/database.ts",
+      "type": "service",
+      "label": "database.ts",
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test:src/runtime/envBootstrap.test.ts",
+      "type": "test",
+      "label": "envBootstrap.test.ts",
+      "complexity": "moderate"
+    },
+    {
+      "id": "service:src/runtime/envBootstrap.ts",
+      "type": "service",
+      "label": "envBootstrap.ts",
+      "complexity": "moderate"
+    },
+    {
+      "id": "service:src/runtime/migrations.ts",
+      "type": "service",
+      "label": "migrations.ts",
+      "complexity": "moderate"
+    },
+    {
+      "id": "service:src/runtime/secretStore.ts",
+      "type": "service",
+      "label": "secretStore.ts",
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/runtime/settings.ts",
+      "type": "file",
+      "label": "settings.ts",
+      "complexity": "moderate"
+    },
+    {
+      "id": "service:src/runtime/settingsRepository.ts",
+      "type": "service",
+      "label": "settingsRepository.ts",
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test:src/server/localOnly.test.ts",
+      "type": "test",
+      "label": "localOnly.test.ts",
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/server/localOnly.ts",
+      "type": "file",
+      "label": "localOnly.ts",
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:component:src/settings/SettingsPage.tsx",
+      "type": "component",
+      "label": "SettingsPage.tsx",
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:test:src/settings/settingsForm.test.ts",
+      "type": "test",
+      "label": "settingsForm.test.ts",
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/settings/settingsForm.ts",
+      "type": "file",
+      "label": "settingsForm.ts",
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/utils.ts",
+      "type": "file",
+      "label": "utils.ts",
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:tsconfig.json",
+      "type": "config",
+      "label": "tsconfig.json",
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/frontend.tsx",
+      "target": "file:src/App.tsx",
+      "type": "imports",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/frontend.tsx",
+      "target": "file:component:App",
+      "type": "renders",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/index.html",
+      "target": "file:src/frontend.tsx",
+      "type": "references",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/App.tsx",
+      "target": "file:src/index.css",
+      "type": "imports",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/App.tsx",
+      "target": "file:src/utils.ts",
+      "type": "imports",
+      "weight": 0.3,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/App.tsx",
+      "target": "file:src/production/useProduction.ts",
+      "type": "imports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/App.tsx",
+      "target": "file:src/components/Header.tsx",
+      "type": "imports",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/App.tsx",
+      "target": "file:src/components/SlidePanels.tsx",
+      "type": "imports",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/App.tsx",
+      "target": "file:src/components/StreamHealth.tsx",
+      "type": "imports",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/App.tsx",
+      "target": "file:src/components/ServiceOrder.tsx",
+      "type": "imports",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/App.tsx",
+      "target": "file:src/components/PcoTimer.tsx",
+      "type": "imports",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/App.tsx",
+      "target": "file:src/components/ConnectionStatus.tsx",
+      "type": "imports",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/App.tsx",
+      "target": "file:src/components/ChatPanel.tsx",
+      "type": "imports",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/App.tsx",
+      "target": "file:src/components/PlaylistStrip.tsx",
+      "type": "imports",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/App.tsx",
+      "target": "file:src/components/TweaksPanel.tsx",
+      "type": "imports",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:component:App",
+      "target": "file:component:Dashboard",
+      "type": "renders",
+      "weight": 0.9,
+      "direction": "forward"
+    },
+    {
+      "source": "file:component:Dashboard",
+      "target": "file:src/components/Header.tsx",
+      "type": "renders",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:component:Dashboard",
+      "target": "file:src/components/SlidePanels.tsx",
+      "type": "renders",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:component:Dashboard",
+      "target": "file:src/components/StreamHealth.tsx",
+      "type": "renders",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:component:Dashboard",
+      "target": "file:src/components/ServiceOrder.tsx",
+      "type": "renders",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:component:Dashboard",
+      "target": "file:src/components/PcoTimer.tsx",
+      "type": "renders",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:component:Dashboard",
+      "target": "file:src/components/ConnectionStatus.tsx",
+      "type": "renders",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:component:Dashboard",
+      "target": "file:src/components/ChatPanel.tsx",
+      "type": "renders",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:component:Dashboard",
+      "target": "file:src/components/PlaylistStrip.tsx",
+      "type": "renders",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:component:Dashboard",
+      "target": "file:src/components/TweaksPanel.tsx",
+      "type": "renders",
+      "weight": 0.5,
+      "direction": "forward"
+    },
+    {
+      "source": "file:component:Dashboard",
+      "target": "file:hook:useTweaks",
+      "type": "calls",
+      "weight": 0.6,
+      "direction": "forward"
+    },
+    {
+      "source": "file:component:Dashboard",
+      "target": "file:src/production/useProduction.ts",
+      "type": "calls",
+      "weight": 0.9,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/components/ChatPanel.tsx",
+      "target": "file:src/components/atoms.tsx",
+      "type": "imports",
+      "weight": 0.4,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/components/ChatPanel.tsx",
+      "target": "file:src/production/types.ts",
+      "type": "imports",
+      "weight": 0.3,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/components/ConnectionStatus.tsx",
+      "target": "file:src/components/atoms.tsx",
+      "type": "imports",
+      "weight": 0.4,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/components/ConnectionStatus.tsx",
+      "target": "file:src/production/types.ts",
+      "type": "imports",
+      "weight": 0.3,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/components/Header.tsx",
+      "target": "file:src/components/atoms.tsx",
+      "type": "imports",
+      "weight": 0.4,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/components/Header.tsx",
+      "target": "file:src/utils.ts",
+      "type": "imports",
+      "weight": 0.3,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/components/PcoTimer.tsx",
+      "target": "file:src/components/atoms.tsx",
+      "type": "imports",
+      "weight": 0.4,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/components/PcoTimer.tsx",
+      "target": "file:src/utils.ts",
+      "type": "imports",
+      "weight": 0.3,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/components/PlaylistStrip.tsx",
+      "target": "file:src/components/atoms.tsx",
+      "type": "imports",
+      "weight": 0.4,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/components/ServiceOrder.tsx",
+      "target": "file:src/components/atoms.tsx",
+      "type": "imports",
+      "weight": 0.4,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/components/SlidePanels.tsx",
+      "target": "file:src/components/atoms.tsx",
+      "type": "imports",
+      "weight": 0.4,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/components/StreamHealth.tsx",
+      "target": "file:src/components/atoms.tsx",
+      "type": "imports",
+      "weight": 0.4,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/components/TweaksPanel.tsx",
+      "target": "file:hook:useTweaks",
+      "type": "defines",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/integrations/integrationManager.ts",
+      "target": "file:src/integrations/types.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/integrations/integrationManager.ts",
+      "target": "file:src/integrations/obs/obsManager.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/integrations/integrationManager.ts",
+      "target": "file:src/integrations/pco/pcoManager.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/integrations/integrationManager.ts",
+      "target": "file:src/integrations/obs/obsManager.ts",
+      "type": "calls",
+      "label": "manages",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/integrations/integrationManager.ts",
+      "target": "file:src/integrations/pco/pcoManager.ts",
+      "type": "calls",
+      "label": "manages",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/integrations/obs/obsManager.ts",
+      "target": "file:src/runtime/settings.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/integrations/obs/obsManager.ts",
+      "target": "file:src/integrations/types.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/integrations/pco/pcoManager.test.ts",
+      "target": "file:src/integrations/pco/pcoManager.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/integrations/pco/pcoManager.test.ts",
+      "target": "file:src/integrations/pco/pcoManager.ts",
+      "type": "calls",
+      "label": "tests",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/integrations/pco/pcoManager.ts",
+      "target": "file:src/runtime/settings.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/integrations/pco/pcoManager.ts",
+      "target": "file:src/production/types.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/integrations/pco/pcoManager.ts",
+      "target": "file:src/integrations/types.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/integrations/pco/pcoManager.ts",
+      "target": "file:src/integrations/status.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/integrations/status.ts",
+      "target": "file:src/runtime/settings.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/integrations/status.ts",
+      "target": "file:src/integrations/types.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/integrations/types.ts",
+      "target": "file:src/runtime/settings.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/integrations/types.ts",
+      "target": "file:src/production/types.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/production/serverProductionStore.test.ts",
+      "target": "file:src/production/serverProductionStore.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/production/serverProductionStore.test.ts",
+      "target": "file:src/production/serverProductionStore.ts",
+      "type": "calls",
+      "label": "tests",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/production/serverProductionStore.ts",
+      "target": "file:src/data.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/production/serverProductionStore.ts",
+      "target": "file:src/integrations/integrationManager.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/production/serverProductionStore.ts",
+      "target": "file:src/integrations/types.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/production/serverProductionStore.ts",
+      "target": "file:src/data.ts",
+      "type": "reads_from",
+      "label": "reads simulation data",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/production/serverProductionStore.ts",
+      "target": "file:src/integrations/integrationManager.ts",
+      "type": "calls",
+      "label": "reads live data",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/production/simulationProvider.ts",
+      "target": "file:src/utils.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/production/simulationProvider.ts",
+      "target": "file:src/data.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/production/simulationProvider.ts",
+      "target": "file:src/data.ts",
+      "type": "reads_from",
+      "label": "reads simulation data",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/production/simulationProvider.ts",
+      "target": "file:src/utils.ts",
+      "type": "calls",
+      "label": "uses helpers",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/production/useProduction.ts",
+      "target": "file:src/production/simulationProvider.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/production/useProduction.ts",
+      "target": "file:src/production/types.ts",
+      "type": "imports",
+      "label": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/production/useProduction.ts",
+      "target": "file:src/production/simulationProvider.ts",
+      "type": "calls",
+      "label": "falls back to simulation",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/index.ts",
+      "target": "file:src/index.html",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/index.ts",
+      "target": "file:src/production/serverProductionStore.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/index.ts",
+      "target": "file:src/runtime/configStatus.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/index.ts",
+      "target": "service:src/runtime/database.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/index.ts",
+      "target": "service:src/runtime/envBootstrap.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/index.ts",
+      "target": "service:src/runtime/settingsRepository.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/index.ts",
+      "target": "file:src/runtime/settings.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/index.ts",
+      "target": "file:src/server/localOnly.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/index.ts",
+      "target": "file:src/index.html",
+      "type": "serves",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/index.ts",
+      "target": "service:src/runtime/database.ts",
+      "type": "triggers",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/index.ts",
+      "target": "service:src/runtime/envBootstrap.ts",
+      "type": "triggers",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/index.ts",
+      "target": "service:src/runtime/settingsRepository.ts",
+      "type": "configures",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/index.ts",
+      "target": "file:src/production/serverProductionStore.ts",
+      "type": "triggers",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/runtime/configStatus.ts",
+      "target": "file:src/runtime/settings.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/runtime/database.ts",
+      "target": "file:src/runtime/appDataPath.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/runtime/database.ts",
+      "target": "service:src/runtime/migrations.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/runtime/database.ts",
+      "target": "service:src/runtime/migrations.ts",
+      "type": "triggers",
+      "direction": "forward"
+    },
+    {
+      "source": "file:test:src/runtime/envBootstrap.test.ts",
+      "target": "file:src/runtime/configStatus.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:test:src/runtime/envBootstrap.test.ts",
+      "target": "service:src/runtime/envBootstrap.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:test:src/runtime/envBootstrap.test.ts",
+      "target": "service:src/runtime/migrations.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:test:src/runtime/envBootstrap.test.ts",
+      "target": "service:src/runtime/settingsRepository.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/runtime/envBootstrap.ts",
+      "target": "file:src/runtime/settings.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/runtime/envBootstrap.ts",
+      "target": "service:src/runtime/settingsRepository.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/runtime/envBootstrap.ts",
+      "target": "service:src/runtime/settingsRepository.ts",
+      "type": "configures",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/runtime/migrations.ts",
+      "target": "file:src/runtime/settings.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/runtime/secretStore.ts",
+      "target": "file:src/runtime/settings.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/runtime/settingsRepository.ts",
+      "target": "service:src/runtime/secretStore.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/runtime/settingsRepository.ts",
+      "target": "file:src/runtime/settings.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "service:src/runtime/settingsRepository.ts",
+      "target": "service:src/runtime/secretStore.ts",
+      "type": "configures",
+      "direction": "forward"
+    },
+    {
+      "source": "file:test:src/server/localOnly.test.ts",
+      "target": "file:src/server/localOnly.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:component:src/settings/SettingsPage.tsx",
+      "target": "file:src/components/atoms.tsx",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:component:src/settings/SettingsPage.tsx",
+      "target": "file:src/runtime/settings.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:component:src/settings/SettingsPage.tsx",
+      "target": "file:src/settings/settingsForm.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:component:src/settings/SettingsPage.tsx",
+      "target": "file:src/runtime/settings.ts",
+      "type": "documents",
+      "direction": "forward"
+    },
+    {
+      "source": "file:component:src/settings/SettingsPage.tsx",
+      "target": "file:src/settings/settingsForm.ts",
+      "type": "triggers",
+      "direction": "forward"
+    },
+    {
+      "source": "file:test:src/settings/settingsForm.test.ts",
+      "target": "file:src/runtime/settings.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/settings/settingsForm.ts",
+      "target": "file:src/runtime/settings.ts",
+      "type": "imports",
+      "direction": "forward"
+    },
+    {
+      "source": "file:src/integrations/pco/pcoManager.ts",
+      "target": "file:src/integrations/pco/pcoManager.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5,
+      "description": "Path-based pairing (deterministic)"
+    },
+    {
+      "source": "file:src/production/serverProductionStore.ts",
+      "target": "file:src/production/serverProductionStore.test.ts",
+      "type": "tested_by",
+      "direction": "forward",
+      "weight": 0.5,
+      "description": "Path-based pairing (deterministic)"
+    }
+  ],
+  "layers": [
+    {
+      "id": "layer:ui",
+      "name": "UI Layer",
+      "description": "Frontend components, hooks, styles, assets, and settings UI.",
+      "nodeIds": [
+        "file:src/App.tsx",
+        "file:component:App",
+        "file:component:Dashboard",
+        "file:src/frontend.tsx",
+        "file:src/index.html",
+        "file:src/components/atoms.tsx",
+        "file:src/components/ChatPanel.tsx",
+        "file:src/components/ConnectionStatus.tsx",
+        "file:src/components/Header.tsx",
+        "file:src/components/PcoTimer.tsx",
+        "file:src/components/PlaylistStrip.tsx",
+        "file:src/components/ServiceOrder.tsx",
+        "file:src/components/SlidePanels.tsx",
+        "file:src/components/StreamHealth.tsx",
+        "file:src/components/TweaksPanel.tsx",
+        "file:hook:useTweaks",
+        "file:src/index.css",
+        "file:style:src/logo.svg",
+        "file:style:src/react.svg",
+        "file:component:src/settings/SettingsPage.tsx",
+        "file:test:src/settings/settingsForm.test.ts",
+        "file:src/settings/settingsForm.ts"
+      ]
+    },
+    {
+      "id": "layer:production",
+      "name": "Production Layer",
+      "description": "Core production state management, simulation data, and domain types.",
+      "nodeIds": [
+        "file:src/data.ts",
+        "file:src/production/serverProductionStore.test.ts",
+        "file:src/production/serverProductionStore.ts",
+        "file:src/production/simulationProvider.ts",
+        "file:src/production/types.ts",
+        "file:src/production/useProduction.ts"
+      ]
+    },
+    {
+      "id": "layer:integrations",
+      "name": "Integrations Layer",
+      "description": "External service connectors and managers (OBS, PCO, etc.).",
+      "nodeIds": [
+        "file:src/integrations/integrationManager.ts",
+        "file:src/integrations/obs/obsManager.ts",
+        "file:src/integrations/pco/pcoManager.test.ts",
+        "file:src/integrations/pco/pcoManager.ts",
+        "file:src/integrations/status.ts",
+        "file:src/integrations/types.ts"
+      ]
+    },
+    {
+      "id": "layer:runtime",
+      "name": "Runtime Layer",
+      "description": "Server-side logic, database, migrations, and shared utilities.",
+      "nodeIds": [
+        "service:src/index.ts",
+        "file:src/runtime/appDataPath.ts",
+        "file:src/runtime/configStatus.ts",
+        "service:src/runtime/database.ts",
+        "file:test:src/runtime/envBootstrap.test.ts",
+        "service:src/runtime/envBootstrap.ts",
+        "service:src/runtime/migrations.ts",
+        "service:src/runtime/secretStore.ts",
+        "file:src/runtime/settings.ts",
+        "service:src/runtime/settingsRepository.ts",
+        "file:test:src/server/localOnly.test.ts",
+        "file:src/server/localOnly.ts",
+        "file:src/utils.ts"
+      ]
+    },
+    {
+      "id": "layer:infrastructure",
+      "name": "Infrastructure Layer",
+      "description": "Build scripts, environment config, and package management.",
+      "nodeIds": [
+        "config:.claude/launch.json",
+        "config:.env.example",
+        "config:.gitignore",
+        "file:script:build.ts",
+        "file:bun-env.d.ts",
+        "config:bun.lock",
+        "config:bunfig.toml",
+        "config:package.json",
+        "config:tsconfig.json"
+      ]
+    },
+    {
+      "id": "layer:documentation",
+      "name": "Documentation Layer",
+      "description": "Project documentation, ADRs, and agent instructions.",
+      "nodeIds": [
+        "document:.cursor/rules/use-bun-instead-of-node-vite-npm-pnpm.mdc",
+        "document:AGENTS.md",
+        "document:CLAUDE.md",
+        "document:CONTEXT.md",
+        "document:README.md",
+        "document:docs/adr/0001-live-integrations-with-simulation-mode.md",
+        "document:docs/adr/0002-pco-services-owns-service-order.md",
+        "document:docs/adr/0003-signaldeck-owns-service-position.md",
+        "document:docs/adr/0004-propresenter-owns-slide-state.md",
+        "document:docs/adr/0005-encoder-owns-stream-health.md",
+        "document:docs/adr/0006-shared-provider-contract-for-simulation-and-live-data.md",
+        "document:docs/adr/0007-production-snapshot-provider-contract.md",
+        "document:docs/adr/0008-one-operator-station-first.md",
+        "document:docs/adr/0009-server-side-pco-credentials.md",
+        "document:docs/adr/0010-runtime-settings-canonical-env-bootstrap.md",
+        "document:docs/next-steps.md"
+      ]
+    }
+  ],
+  "tour": [
+    {
+      "order": 1,
+      "title": "Welcome to SignalDeck",
+      "description": "SignalDeck is a live production dashboard for church services. Start with the README and CONTEXT files to understand the core mission and design philosophy.",
+      "nodeIds": [
+        "document:README.md",
+        "document:CONTEXT.md"
+      ]
+    },
+    {
+      "order": 2,
+      "title": "Entry Points",
+      "description": "The application has two main entry points: index.ts for the Bun server and frontend.tsx for the React client.",
+      "nodeIds": [
+        "service:src/index.ts",
+        "file:src/frontend.tsx"
+      ]
+    },
+    {
+      "order": 3,
+      "title": "Production State Management",
+      "description": "The ServerProductionStore is the 'brain' of the application, managing the real-time state of the production.",
+      "nodeIds": [
+        "file:src/production/serverProductionStore.ts",
+        "file:src/production/types.ts"
+      ]
+    },
+    {
+      "order": 4,
+      "title": "UI Dashboard",
+      "description": "The React App component and Header provide the visual interface for operators to monitor and control the production.",
+      "nodeIds": [
+        "file:src/App.tsx",
+        "file:src/components/Header.tsx"
+      ]
+    },
+    {
+      "order": 5,
+      "title": "External Integrations",
+      "description": "SignalDeck connects to various services like Planning Center, ProPresenter, and OBS via the IntegrationManager.",
+      "nodeIds": [
+        "file:src/integrations/integrationManager.ts"
+      ]
+    },
+    {
+      "order": 6,
+      "title": "Runtime & Persistence",
+      "description": "Configuration, settings, and database persistence are handled by the runtime layer.",
+      "nodeIds": [
+        "service:src/runtime/database.ts",
+        "service:src/runtime/settingsRepository.ts"
+      ]
+    }
+  ]
+}

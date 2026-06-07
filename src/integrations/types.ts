@@ -1,5 +1,5 @@
 import type { IntegrationKey } from "../runtime/settings";
-import type { ServiceOrder } from "../production/types";
+import type { ChatMessage, ServiceOrder, SlideState } from "../production/types";
 
 export type IntegrationRuntimeState = "disabled" | "missing-config" | "connecting" | "connected" | "error";
 
@@ -9,6 +9,7 @@ export interface IntegrationStatus {
   state: IntegrationRuntimeState;
   message: string | null;
   updatedAt: string;
+  resolvedPlanId?: string;
 }
 
 export interface IntegrationTestResult {
@@ -18,4 +19,6 @@ export interface IntegrationTestResult {
 
 export interface IntegrationData {
   serviceOrder?: ServiceOrder | null;
+  slideState?: SlideState | null;
+  chatMessages?: ChatMessage[] | null;
 }

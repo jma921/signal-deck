@@ -39,11 +39,20 @@ interface PcoItemsResponse {
   data?: PcoItemResource[];
 }
 
+interface PcoPlanResource {
+  id: string;
+}
+
+interface PcoPlansResponse {
+  data?: PcoPlanResource[];
+}
+
 export class PcoManager {
   private currentStatus: IntegrationStatus = integrationStatus("pco", "disabled", false, "PCO Services integration is disabled.");
   private currentServiceOrder: ServiceOrder | null = null;
   private refreshTimer: ReturnType<typeof setTimeout> | null = null;
   private running = false;
+  private resolvedPlanId: string | null = null;
 
   constructor(
     private readonly settingsRepository: SettingsRepository,
@@ -80,11 +89,11 @@ export class PcoManager {
     }
 
     const serviceTypeId = asString(settings.extra.serviceTypeId);
-    const planId = asString(settings.extra.planId);
+    const manualPlanId = asString(settings.extra.planId);
     const clientId = asString(settings.extra.clientId);
     const secret = this.getSecret();
-    if (!serviceTypeId || !planId || !clientId || !secret) {
-      this.currentStatus = integrationStatus("pco", "missing-config", true, "PCO Services client ID, secret, service type, and plan are required.");
+    if (!serviceTypeId || !clientId || !secret) {
+      this.currentStatus = integrationStatus("pco", "missing-config", true, "PCO Services client ID, secret, and service type are required.");
       this.markStale();
       this.emit();
       this.scheduleRefresh(settings);
@@ -95,6 +104,8 @@ export class PcoManager {
     this.emit();
 
     try {
+      const planId = manualPlanId ?? await this.resolveActivePlanId(settings, serviceTypeId, clientId, secret);
+      this.resolvedPlanId = planId;
       const items = await this.fetchItems(settings, serviceTypeId, planId, clientId, secret);
       this.currentServiceOrder = {
         source: "pco",
@@ -102,7 +113,10 @@ export class PcoManager {
         stale: false,
         lastSyncedAt: nowIso(),
       };
-      this.currentStatus = integrationStatus("pco", "connected", true, `Synced ${items.length} Service Items from PCO Services.`);
+      this.currentStatus = {
+        ...integrationStatus("pco", "connected", true, `Synced ${items.length} Service Items from PCO Services.`),
+        resolvedPlanId: planId,
+      };
     } catch (error) {
       this.currentStatus = integrationStatus("pco", "error", true, sanitizeError(error, "PCO Services request failed."));
       this.markStale();
@@ -111,6 +125,35 @@ export class PcoManager {
     this.emit();
     this.scheduleRefresh(settings);
     return this.currentStatus;
+  }
+
+  private async resolveActivePlanId(settings: IntegrationSettings, serviceTypeId: string, clientId: string, secret: string): Promise<string> {
+    const baseUrl = asString(settings.extra.baseUrl) ?? DEFAULT_BASE_URL;
+    const auth = this.authorizationHeader(clientId, secret);
+    const headers = { "Authorization": auth, "Accept": "application/json" };
+
+    const upcomingUrl = new URL(`/services/v2/service_types/${serviceTypeId}/plans`, baseUrl);
+    upcomingUrl.searchParams.set("filter", "future");
+    upcomingUrl.searchParams.set("order", "sort_date");
+    upcomingUrl.searchParams.set("per_page", "1");
+
+    const upcomingRes = await fetch(upcomingUrl, { headers });
+    if (!upcomingRes.ok) throw new Error(`PCO Services returned ${upcomingRes.status} fetching plans.`);
+    const upcomingBody = await upcomingRes.json() as PcoPlansResponse;
+    const upcomingPlan = upcomingBody.data?.[0];
+    if (upcomingPlan) return upcomingPlan.id;
+
+    const recentUrl = new URL(`/services/v2/service_types/${serviceTypeId}/plans`, baseUrl);
+    recentUrl.searchParams.set("order", "-sort_date");
+    recentUrl.searchParams.set("per_page", "1");
+
+    const recentRes = await fetch(recentUrl, { headers });
+    if (!recentRes.ok) throw new Error(`PCO Services returned ${recentRes.status} fetching plans.`);
+    const recentBody = await recentRes.json() as PcoPlansResponse;
+    const recentPlan = recentBody.data?.[0];
+    if (recentPlan) return recentPlan.id;
+
+    throw new Error("No plans found in PCO Services for this service type.");
   }
 
   private async fetchItems(settings: IntegrationSettings, serviceTypeId: string, planId: string, clientId: string, secret: string): Promise<ServiceOrderItem[]> {
